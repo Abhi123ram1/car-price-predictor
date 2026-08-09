@@ -17,7 +17,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="brand"><i class="fa-solid fa-car mr-1 text-cyan"></i> Car Brand</label>
-            <select id="brand" name="brand" class="form-control custom-select" required>
+            <select id="brand" name="brand" class="form-control custom-select">
               <option value="">All Brands (Select to filter)...</option>
               {% for b in meta.get('brands', []) %}
                 <option value="{{ b }}" {% if input and input.get('Brand') == b %}selected{% endif %}>{{ b }}</option>
@@ -28,7 +28,7 @@
           <div class="form-group col-md-6">
             <label for="model"><i class="fa-solid fa-car-side mr-1 text-cyan"></i> Car Model</label>
             <select id="model" name="model" class="form-control custom-select" required>
-              <option value="">Select Model...</option>
+              <option value="">-- Select Model --</option>
             </select>
           </div>
         </div>
@@ -140,36 +140,35 @@ const modelsByBrand = {{ meta.get('models_by_brand', {})|tojson }};
 const brandSelect = document.getElementById('brand');
 const modelSelect = document.getElementById('model');
 
-const selectedBrand = "{{ input.get('Brand', '') if input else '' }}";
-const selectedModel = "{{ input.get('Model', '') if input else '' }}";
+const initialBrand = "{{ input.get('Brand', '') if input else '' }}";
+const initialModel = "{{ input.get('Model', '') if input else '' }}";
 
-function populateModels(brandToFilter, currentSelectedModel) {
+function populateModels(brandToFilter, currentModel) {
   modelSelect.innerHTML = '';
   
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.textContent = brandToFilter ? `Select ${brandToFilter} Model...` : 'Select Model...';
-  modelSelect.appendChild(defaultOption);
+  const defaultOpt = document.createElement('option');
+  defaultOpt.value = '';
+  defaultOpt.textContent = brandToFilter ? `-- Select ${brandToFilter} Model --` : '-- Select Model --';
+  modelSelect.appendChild(defaultOpt);
 
   if (brandToFilter && modelsByBrand[brandToFilter]) {
     modelsByBrand[brandToFilter].forEach(m => {
       const opt = document.createElement('option');
-      opt.value = m;
+      opt.value = `${brandToFilter}|${m}`;
       opt.textContent = m;
-      if (m === currentSelectedModel) opt.selected = true;
+      if (m === currentModel) opt.selected = true;
       modelSelect.appendChild(opt);
     });
   } else {
     // Show all models grouped by brand if no brand is explicitly chosen
-    Object.keys(modelsByBrand).forEach(b => {
+    Object.keys(modelsByBrand).sort().forEach(b => {
       const group = document.createElement('optgroup');
       group.label = b;
       modelsByBrand[b].forEach(m => {
         const opt = document.createElement('option');
-        opt.value = m;
-        opt.dataset.brand = b;
+        opt.value = `${b}|${m}`;
         opt.textContent = `${b} ${m}`;
-        if (b === selectedBrand && m === currentSelectedModel) opt.selected = true;
+        if (b === initialBrand && m === currentModel) opt.selected = true;
         group.appendChild(opt);
       });
       modelSelect.appendChild(group);
@@ -177,34 +176,35 @@ function populateModels(brandToFilter, currentSelectedModel) {
   }
 }
 
-// When Brand changes, filter Model options immediately
+// Brand select change listener: immediately populates and filters Model select
 brandSelect.addEventListener('change', function(e) {
   populateModels(e.target.value, null);
 });
 
-// When Model is selected from grouped list, sync Brand select
+// Model select change listener: automatically updates Brand select to match
 modelSelect.addEventListener('change', function(e) {
-  const opt = e.target.options[e.target.selectedIndex];
-  if (opt && opt.dataset && opt.dataset.brand) {
-    brandSelect.value = opt.dataset.brand;
+  const val = e.target.value;
+  if (val && val.includes('|')) {
+    const parts = val.split('|');
+    brandSelect.value = parts[0];
   }
 });
 
-// Initial populate on load
-populateModels(selectedBrand || brandSelect.value, selectedModel);
+// Initial populate on page load
+populateModels(initialBrand || brandSelect.value, initialModel);
 
+// Form submission validation & brand sync
 document.getElementById('predictForm').addEventListener('submit', function(e) {
-  const brand = brandSelect.value;
-  const model = modelSelect.value;
-  if (!model) {
+  const modelVal = modelSelect.value;
+  if (!modelVal) {
     e.preventDefault();
     alert('Please select a Car Model.');
+    modelSelect.focus();
     return false;
   }
-  // Auto-set brand from selected model if brand is not explicitly selected
-  const opt = modelSelect.options[modelSelect.selectedIndex];
-  if ((!brand || brand === '') && opt && opt.dataset && opt.dataset.brand) {
-    brandSelect.value = opt.dataset.brand;
+  if (modelVal.includes('|')) {
+    const parts = modelVal.split('|');
+    brandSelect.value = parts[0];
   }
 });
 </script>
