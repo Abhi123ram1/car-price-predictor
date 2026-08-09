@@ -29,9 +29,10 @@ try:
 except ImportError:
     HAS_POSTGRES = False
 
-DB_PATH = "database.db"
-MODEL_PATH = "model.pkl"
-META_PATH = "model_meta.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "database.db")
+MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
+META_PATH = os.path.join(BASE_DIR, "model_meta.json")
 DB_URL = os.environ.get("DATABASE_URL")
 
 app = Flask(__name__)
