@@ -1,12 +1,18 @@
 # 🚗 CarValue AI - Used Car Price Predictor
 
+[![Live App on Render](https://img.shields.io/badge/Live_App-Render-success?style=for-the-badge&logo=render)](https://car-price-predictor-r4a7.onrender.com)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.1-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
+
+**🌐 Live Web Application**: [https://car-price-predictor-r4a7.onrender.com](https://car-price-predictor-r4a7.onrender.com)
+
 An AI-powered web application for used car valuation built with **Python**, **Flask**, **scikit-learn**, **Pandas**, **Chart.js**, and **SQLite/PostgreSQL**.
 
 ---
 
 ## 🌟 Key Features
 
-- **Machine Learning Engine**: Trained on 600+ real-world car listings using a **Random Forest Regressor** pipeline (`r2_score = 91.26%`, `MAE = ₹89,246`).
+- **High-Accuracy ML Model**: Trained on 8,128+ real-world car listings across 32 brands using a **Random Forest Regressor** pipeline (`R² Score = 96.52%`, `MAE = ₹70,429`).
 - **Dynamic Price Range & Confidence Rating**: Estimates high and low valuation boundaries based on ensemble tree variance.
 - **Smart Deal Classification**: Categorizes predictions into **Good Deal**, **Fair Price**, or **Overpriced**.
 - **Dark Glassmorphic UI**: Modern interface with responsive layout, dynamic brand/model dropdown auto-filtering, and micro-interactions.
@@ -16,44 +22,52 @@ An AI-powered web application for used car valuation built with **Python**, **Fl
 
 ---
 
+## 🌐 Live Web Application Links
+
+- 🏠 **Home Page**: [https://car-price-predictor-r4a7.onrender.com](https://car-price-predictor-r4a7.onrender.com)
+- 🔮 **Predict Price**: [https://car-price-predictor-r4a7.onrender.com/predict](https://car-price-predictor-r4a7.onrender.com/predict)
+- 📊 **Dashboard**: [https://car-price-predictor-r4a7.onrender.com/dashboard](https://car-price-predictor-r4a7.onrender.com/dashboard)
+- ⚙️ **Metadata REST API**: [https://car-price-predictor-r4a7.onrender.com/api/meta](https://car-price-predictor-r4a7.onrender.com/api/meta)
+
+---
+
 ## 📐 Architecture & Technology Stack
 
 | Component | Technologies |
 | :--- | :--- |
-| **Backend Framework** | Flask, Python 3.14, Gunicorn |
+| **Backend Framework** | Flask, Python 3.11/3.14, Gunicorn |
 | **Machine Learning** | scikit-learn (RandomForestRegressor, OneHotEncoder, StandardScaler), Joblib |
 | **Data Processing** | Pandas, NumPy |
 | **Database** | SQLite / PostgreSQL (psycopg2) |
 | **Frontend** | HTML5, CSS3 (Custom Glassmorphism), Bootstrap 4.6, FontAwesome 6 |
 | **Data Visualization**| Chart.js |
+| **Cloud Deployment** | Render (Gunicorn + Python Blueprint) |
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Quick Start Guide (Local Development)
 
 ### 1. Prerequisites
 Ensure Python 3.8+ is installed on your system.
 
 ### 2. Installation
-Clone the repository and install the dependencies:
+Clone the repository and install dependencies:
 ```bash
+git clone https://github.com/Abhi123ram1/car-price-predictor.git
+cd car-price-predictor
 pip install -r requirements.txt
 ```
 
-### 3. Generate Dataset & Train Model
+### 3. Train Model
 ```bash
-# 1. Generate realistic dataset
-python data/generate_dataset.py
-
-# 2. Train the Random Forest Regressor
-python train_model.py --data data/car_data.csv
+python train_model.py
 ```
 
-### 4. Run the Flask Web Application
+### 4. Run Flask Server
 ```bash
 python app.py
 ```
-Open your browser and navigate to `http://localhost:5000`.
+Open your browser at `http://localhost:5000`.
 
 ---
 
@@ -66,10 +80,10 @@ Open your browser and navigate to `http://localhost:5000`.
 ```json
 {
   "metrics": {
-    "r2": 0.9126,
-    "mae": 89246.62,
-    "rmse": 173192.73,
-    "sample_count": 600
+    "r2": 0.9652,
+    "mae": 70429.43,
+    "rmse": 150956.43,
+    "sample_count": 8128
   },
   "brands": ["Audi", "BMW", "Ford", "Honda", "Hyundai", "Kia", "Mahindra", "Maruti", "Tata", "Toyota", "Volkswagen"],
   "models_by_brand": {
@@ -86,8 +100,8 @@ Open your browser and navigate to `http://localhost:5000`.
 {
   "Brand": "Maruti",
   "Model": "Swift",
-  "Year": 2020,
-  "Kilometres_Driven": 35000,
+  "Year": 2021,
+  "Kilometres_Driven": 25000,
   "Fuel_Type": "Petrol",
   "Transmission": "Manual",
   "Owner_Count": 1,
@@ -99,13 +113,13 @@ Open your browser and navigate to `http://localhost:5000`.
 **Response:**
 ```json
 {
-  "predicted_price": 465200.0,
-  "price_low": 427984.0,
-  "price_high": 502416.0,
-  "confidence": 92.5,
+  "predicted_price": 520000.0,
+  "price_low": 485000.0,
+  "price_high": 555000.0,
+  "confidence": 94.5,
   "recommendation": "Good Deal",
   "currency": "INR (₹)",
-  "timestamp": "2026-07-29 13:45:00"
+  "timestamp": "2026-08-09 20:50:00"
 }
 ```
 
