@@ -5,7 +5,7 @@
   <div class="col-lg-7 mb-4">
     <div class="glass-card p-4">
       <h3 class="mb-3"><i class="fa-solid fa-wand-magic-sparkles text-cyan mr-2"></i>Car Details Input</h3>
-      <p class="text-muted mb-4">Enter the car specifications to get an instant AI-powered price estimate.</p>
+      <p class="text-muted mb-4">Enter your car specifications to get an instant AI-powered price estimate.</p>
 
       {% if error %}
         <div class="alert alert-danger border-0 bg-rose-900 text-white mb-4">
@@ -15,21 +15,17 @@
 
       <form method="post" id="predictForm" novalidate>
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="brand"><i class="fa-solid fa-car mr-1 text-cyan"></i> Brand</label>
-            <select id="brand" name="brand" class="form-control custom-select" required>
-              <option value="">Select Brand...</option>
-              {% for b in meta.get('brands', []) %}
-                <option value="{{ b }}" {% if input and input.get('Brand') == b %}selected{% endif %}>{{ b }}</option>
+          <div class="form-group col-12">
+            <label for="car_model"><i class="fa-solid fa-car-side mr-1 text-cyan"></i> Car Model</label>
+            <select id="car_model" name="model" class="form-control custom-select" required>
+              <option value="">Select Car Model...</option>
+              {% for b, models in meta.get('models_by_brand', {}).items() %}
+                {% for m in models %}
+                  <option value="{{ b }}|{{ m }}" {% if input and input.get('Brand') == b and input.get('Model') == m %}selected{% endif %}>{{ b }} {{ m }}</option>
+                {% endfor %}
               {% endfor %}
             </select>
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="model"><i class="fa-solid fa-car-side mr-1 text-cyan"></i> Model</label>
-            <select id="model" name="model" class="form-control custom-select" required>
-              <option value="">Select Brand First</option>
-            </select>
+            <input type="hidden" id="brand" name="brand" value="{{ input.get('Brand', '') if input else '' }}">
           </div>
         </div>
 
@@ -45,7 +41,7 @@
           <div class="form-group col-md-4">
             <label for="fuel_type"><i class="fa-solid fa-gas-pump mr-1 text-cyan"></i> Fuel Type</label>
             <select id="fuel_type" name="fuel_type" class="form-control custom-select" required>
-              {% for f in meta.get('fuel_types', ['Petrol','Diesel','CNG','Electric']) %}
+              {% for f in meta.get('fuel_types', ['Petrol','Diesel','CNG','LPG','Electric']) %}
                 <option value="{{ f }}" {% if input and input.get('Fuel_Type') == f %}selected{% endif %}>{{ f }}</option>
               {% endfor %}
             </select>
@@ -65,7 +61,7 @@
           <div class="form-group col-md-4">
             <label for="owner_count"><i class="fa-solid fa-user-check mr-1 text-cyan"></i> Previous Owners</label>
             <select id="owner_count" name="owner_count" class="form-control custom-select" required>
-              {% for o in meta.get('owner_counts', [1,2,3]) %}
+              {% for o in meta.get('owner_counts', [1,2,3,4]) %}
                 <option value="{{ o }}" {% if input and input.get('Owner_Count') == o %}selected{% endif %}>{{ o }} Owner{% if o > 1 %}s{% endif %}</option>
               {% endfor %}
             </select>
@@ -127,7 +123,7 @@
       <div class="glass-card p-4 text-center">
         <i class="fa-solid fa-chart-line text-muted fa-3x mb-3"></i>
         <h5>Ready for Valuation</h5>
-        <p class="text-muted">Select your car brand and model details on the left, then click Calculate to view instant price estimates and market recommendation.</p>
+        <p class="text-muted">Select your car model on the left, then click Calculate to view instant price estimates and market recommendation.</p>
       </div>
     {% endif %}
   </div>
@@ -136,41 +132,21 @@
 
 {% block scripts %}
 <script>
-const modelsByBrand = {{ meta.get('models_by_brand', {})|tojson }};
-const selectedModel = "{{ input.get('Model', '') if input else '' }}";
-
-function populateModels(brand) {
-  const modelSelect = document.getElementById('model');
-  modelSelect.innerHTML = '';
-  if (!brand || !modelsByBrand[brand]) {
-    modelSelect.innerHTML = '<option value="">Select Brand First</option>';
-    return;
+document.getElementById('car_model').addEventListener('change', function(e) {
+  const val = e.target.value;
+  if (val && val.includes('|')) {
+    const parts = val.split('|');
+    document.getElementById('brand').value = parts[0];
+  } else {
+    document.getElementById('brand').value = '';
   }
-  const models = modelsByBrand[brand];
-  let options = '<option value="">Select Model...</option>';
-  models.forEach(m => {
-    const sel = (m === selectedModel) ? 'selected' : '';
-    options += `<option value="${m}" ${sel}>${m}</option>`;
-  });
-  modelSelect.innerHTML = options;
-}
-
-document.getElementById('brand').addEventListener('change', function(e) {
-  populateModels(e.target.value);
 });
 
-// Initial load trigger if brand is pre-selected
-const initialBrand = document.getElementById('brand').value;
-if (initialBrand) {
-  populateModels(initialBrand);
-}
-
 document.getElementById('predictForm').addEventListener('submit', function(e) {
-  const brand = document.getElementById('brand').value;
-  const model = document.getElementById('model').value;
-  if (!brand || !model) {
+  const model = document.getElementById('car_model').value;
+  if (!model) {
     e.preventDefault();
-    alert('Please select both Brand and Model.');
+    alert('Please select a Car Model.');
     return false;
   }
 });

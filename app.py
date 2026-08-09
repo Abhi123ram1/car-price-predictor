@@ -197,6 +197,10 @@ def predict():
             form = request.form
             brand = form.get("brand", "").strip()
             car_model = form.get("model", "").strip()
+            if "|" in car_model:
+                brand, car_model = car_model.split("|", 1)
+            elif "|" in brand:
+                brand, car_model = brand.split("|", 1)
             year = int(form.get("year", 2020))
             kilometres = float(form.get("kilometres", 50000))
             fuel_type = form.get("fuel_type", "Petrol").strip()
