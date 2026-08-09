@@ -5,7 +5,7 @@
   <div class="col-lg-7 mb-4">
     <div class="glass-card p-4">
       <h3 class="mb-3"><i class="fa-solid fa-wand-magic-sparkles text-cyan mr-2"></i>Car Details Input</h3>
-      <p class="text-muted mb-4">Enter your car specifications to get an instant AI-powered price estimate.</p>
+      <p class="text-muted mb-4">Select your car brand and model to get an instant AI-powered price estimate.</p>
 
       {% if error %}
         <div class="alert alert-danger border-0 bg-rose-900 text-white mb-4">
@@ -15,17 +15,21 @@
 
       <form method="post" id="predictForm" novalidate>
         <div class="form-row">
-          <div class="form-group col-12">
-            <label for="car_model"><i class="fa-solid fa-car-side mr-1 text-cyan"></i> Car Model</label>
-            <select id="car_model" name="model" class="form-control custom-select" required>
-              <option value="">Select Car Model...</option>
-              {% for b, models in meta.get('models_by_brand', {}).items() %}
-                {% for m in models %}
-                  <option value="{{ b }}|{{ m }}" {% if input and input.get('Brand') == b and input.get('Model') == m %}selected{% endif %}>{{ b }} {{ m }}</option>
-                {% endfor %}
+          <div class="form-group col-md-6">
+            <label for="brand"><i class="fa-solid fa-car mr-1 text-cyan"></i> Car Brand</label>
+            <select id="brand" name="brand" class="form-control custom-select" required>
+              <option value="">All Brands (Select to filter)...</option>
+              {% for b in meta.get('brands', []) %}
+                <option value="{{ b }}" {% if input and input.get('Brand') == b %}selected{% endif %}>{{ b }}</option>
               {% endfor %}
             </select>
-            <input type="hidden" id="brand" name="brand" value="{{ input.get('Brand', '') if input else '' }}">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="model"><i class="fa-solid fa-car-side mr-1 text-cyan"></i> Car Model</label>
+            <select id="model" name="model" class="form-control custom-select" required>
+              <option value="">Select Model...</option>
+            </select>
           </div>
         </div>
 
@@ -123,7 +127,7 @@
       <div class="glass-card p-4 text-center">
         <i class="fa-solid fa-chart-line text-muted fa-3x mb-3"></i>
         <h5>Ready for Valuation</h5>
-        <p class="text-muted">Select your car model on the left, then click Calculate to view instant price estimates and market recommendation.</p>
+        <p class="text-muted">Select your car brand and model on the left, then click Calculate to view instant price estimates and market recommendation.</p>
       </div>
     {% endif %}
   </div>
@@ -132,22 +136,75 @@
 
 {% block scripts %}
 <script>
-document.getElementById('car_model').addEventListener('change', function(e) {
-  const val = e.target.value;
-  if (val && val.includes('|')) {
-    const parts = val.split('|');
-    document.getElementById('brand').value = parts[0];
+const modelsByBrand = {{ meta.get('models_by_brand', {})|tojson }};
+const brandSelect = document.getElementById('brand');
+const modelSelect = document.getElementById('model');
+
+const selectedBrand = "{{ input.get('Brand', '') if input else '' }}";
+const selectedModel = "{{ input.get('Model', '') if input else '' }}";
+
+function populateModels(brandToFilter, currentSelectedModel) {
+  modelSelect.innerHTML = '';
+  
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = brandToFilter ? `Select ${brandToFilter} Model...` : 'Select Model...';
+  modelSelect.appendChild(defaultOption);
+
+  if (brandToFilter && modelsByBrand[brandToFilter]) {
+    modelsByBrand[brandToFilter].forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m;
+      if (m === currentSelectedModel) opt.selected = true;
+      modelSelect.appendChild(opt);
+    });
   } else {
-    document.getElementById('brand').value = '';
+    // Show all models grouped by brand if no brand is explicitly chosen
+    Object.keys(modelsByBrand).forEach(b => {
+      const group = document.createElement('optgroup');
+      group.label = b;
+      modelsByBrand[b].forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.dataset.brand = b;
+        opt.textContent = `${b} ${m}`;
+        if (b === selectedBrand && m === currentSelectedModel) opt.selected = true;
+        group.appendChild(opt);
+      });
+      modelSelect.appendChild(group);
+    });
+  }
+}
+
+// When Brand changes, filter Model options immediately
+brandSelect.addEventListener('change', function(e) {
+  populateModels(e.target.value, null);
+});
+
+// When Model is selected from grouped list, sync Brand select
+modelSelect.addEventListener('change', function(e) {
+  const opt = e.target.options[e.target.selectedIndex];
+  if (opt && opt.dataset && opt.dataset.brand) {
+    brandSelect.value = opt.dataset.brand;
   }
 });
 
+// Initial populate on load
+populateModels(selectedBrand || brandSelect.value, selectedModel);
+
 document.getElementById('predictForm').addEventListener('submit', function(e) {
-  const model = document.getElementById('car_model').value;
+  const brand = brandSelect.value;
+  const model = modelSelect.value;
   if (!model) {
     e.preventDefault();
     alert('Please select a Car Model.');
     return false;
+  }
+  // Auto-set brand from selected model if brand is not explicitly selected
+  const opt = modelSelect.options[modelSelect.selectedIndex];
+  if ((!brand || brand === '') && opt && opt.dataset && opt.dataset.brand) {
+    brandSelect.value = opt.dataset.brand;
   }
 });
 </script>
