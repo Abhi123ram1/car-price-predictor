@@ -1,0 +1,15 @@
+__pycache__
+.pytest_cache
+.venv
+venv
+env
+.env
+.git
+*.pyc
+database.db
+model.pkl
+model_meta.json
+*.csv
+node_modules
+dist
+build

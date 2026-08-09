@@ -1,0 +1,188 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="mb-1"><i class="fa-solid fa-chart-line text-cyan mr-2"></i>Prediction & Market Dashboard</h3>
+    <p class="text-muted mb-0">Overview of recent valuations, price depreciation trends, and brand statistics.</p>
+  </div>
+  <div>
+    <a href="/api/export-csv" class="btn btn-outline-glass btn-sm"><i class="fa-solid fa-download mr-1"></i> Export History CSV</a>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-4 mb-3 mb-md-0">
+    <div class="stat-card text-center">
+      <div class="stat-value text-cyan">{{ stats.total }}</div>
+      <div class="stat-label"><i class="fa-solid fa-calculator mr-1"></i> Total Valuations Saved</div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3 mb-md-0">
+    <div class="stat-card text-center">
+      <div class="stat-value text-indigo">₹{{ '{:,.0f}'.format(stats.avg_price) }}</div>
+      <div class="stat-label"><i class="fa-solid fa-coins mr-1"></i> Average Valuation</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card text-center">
+      <div class="stat-value text-emerald">{{ stats.good_deals_pct }}%</div>
+      <div class="stat-label"><i class="fa-solid fa-thumbs-up mr-1"></i> Good Deals Identified</div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-lg-8 mb-4 mb-lg-0">
+    <div class="glass-card p-4 h-100">
+      <h5 class="mb-3"><i class="fa-solid fa-chart-area text-cyan mr-2"></i>Recent Prediction Timeline</h5>
+      <div style="position: relative; height: 260px;">
+        <canvas id="priceTimeline"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="glass-card p-4 h-100">
+      <h5 class="mb-3"><i class="fa-solid fa-chart-column text-purple mr-2"></i>Depreciation by Year</h5>
+      <div style="position: relative; height: 260px;">
+        <canvas id="depreciationChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="glass-card p-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0"><i class="fa-solid fa-clock-rotate-left text-cyan mr-2"></i>Valuation History</h5>
+    <input type="text" id="tableSearch" class="form-control form-control-sm w-auto" placeholder="Search car model or brand...">
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-glass table-hover mb-0" id="historyTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Time</th>
+          <th>Car</th>
+          <th>Year</th>
+          <th>Specs</th>
+          <th>Predicted (₹)</th>
+          <th>Confidence</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+          <tr>
+            <td class="text-muted">#{{ r['id'] }}</td>
+            <td class="text-muted small">{{ r['timestamp'] }}</td>
+            <td class="font-weight-bold text-white">{{ r['brand'] }} {{ r['model'] }}</td>
+            <td>{{ r['year'] }}</td>
+            <td class="small text-muted">{{ '{:,.0f}'.format(r['kilometres']) }} km • {{ r['fuel_type'] }} • {{ r['transmission'] }}</td>
+            <td class="text-cyan font-weight-bold">₹{{ '{:,.2f}'.format(r['predicted_price']) }}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <span class="mr-2 small">{{ '%.1f'|format(r['confidence']) }}%</span>
+                <div class="progress flex-grow-1 bg-dark" style="height: 5px;">
+                  <div class="progress-bar bg-info" style="width: {{ r['confidence'] }}%;"></div>
+                </div>
+              </div>
+            </td>
+            <td>
+              {% if r['recommendation'] == 'Good Deal' %}
+                <span class="badge-good-deal">Good Deal</span>
+              {% elif r['recommendation'] == 'Fair Price' %}
+                <span class="badge-fair-price">Fair Price</span>
+              {% else %}
+                <span class="badge-overpriced">Overpriced</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="8" class="text-center text-muted py-4">No valuations performed yet. Use the Predict page to generate estimates.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const times = {{ times|tojson }};
+const prices = {{ prices|tojson }};
+
+const ctx1 = document.getElementById('priceTimeline').getContext('2d');
+const gradient1 = ctx1.createLinearGradient(0, 0, 0, 260);
+gradient1.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+gradient1.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+new Chart(ctx1, {
+  type: 'line',
+  data: {
+    labels: times.length > 0 ? times : ['No Data'],
+    datasets: [{
+      label: 'Predicted Price (₹)',
+      data: prices.length > 0 ? prices : [0],
+      borderColor: '#38bdf8',
+      backgroundColor: gradient1,
+      fill: true,
+      tension: 0.3,
+      pointBackgroundColor: '#6366f1'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#94a3b8' } }
+    },
+    scales: {
+      x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+
+const priceByYear = {{ price_by_year|tojson }};
+const years = priceByYear.map(p => p.Year);
+const avgPrices = priceByYear.map(p => p.Selling_Price);
+
+const ctx2 = document.getElementById('depreciationChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Avg Selling Price',
+      data: avgPrices,
+      backgroundColor: 'rgba(168, 85, 247, 0.7)',
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#94a3b8' } }
+    },
+    scales: {
+      x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+      y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+
+// Search filter script
+document.getElementById('tableSearch').addEventListener('keyup', function() {
+  const filter = this.value.toLowerCase();
+  const rows = document.querySelectorAll('#historyTable tbody tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(filter) ? '' : 'none';
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    # Do not publish the Flask port directly; nginx will proxy requests
+    ports: []
+    volumes:
+      - .:/app:rw
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=postgresql://caruser:carpass@postgres:5432/cardb
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=caruser
+      - POSTGRES_PASSWORD=carpass
+      - POSTGRES_DB=cardb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deployment/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deployment/nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - web
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local

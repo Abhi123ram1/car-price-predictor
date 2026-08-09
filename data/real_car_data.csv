@@ -1,0 +1,201 @@
+Brand,Model,Year,Kilometres_Driven,Fuel_Type,Transmission,Owner_Count,Engine_CC,Mileage_kmpl,Selling_Price
+Maruti,Ritz,2014,27000.0,Petrol,Manual,0,1197.0,18.6,335000.0
+Maruti,SX4,2013,43000.0,Diesel,Manual,0,1586.0,15.6,475000.0
+Maruti,Ciaz,2017,6900.0,Petrol,Manual,0,1462.0,20.6,725000.0
+Maruti,Wagon R,2011,5200.0,Petrol,Manual,0,998.0,21.8,285000.0
+Maruti,Swift,2014,42450.0,Diesel,Manual,0,1197.0,22.0,460000.0
+Maruti,Vitara Brezza,2018,2071.0,Diesel,Manual,0,1462.0,18.7,925000.0
+Maruti,Ciaz,2015,18796.0,Petrol,Manual,0,1462.0,20.6,675000.0
+Maruti,S-Cross,2015,33429.0,Diesel,Manual,0,1498.0,18.5,650000.0
+Maruti,Ciaz,2016,20273.0,Diesel,Manual,0,1462.0,20.6,875000.0
+Maruti,Ciaz,2015,42367.0,Diesel,Manual,0,1462.0,20.6,745000.0
+Maruti,Alto 800,2017,2135.0,Petrol,Manual,0,796.0,22.05,285000.0
+Maruti,Ciaz,2015,51000.0,Diesel,Manual,0,1462.0,20.6,685000.0
+Maruti,Ciaz,2015,15000.0,Petrol,Automatic,0,1462.0,20.6,750000.0
+Maruti,Ertiga,2015,26000.0,Petrol,Manual,0,1462.0,19.0,610000.0
+Maruti,Dzire,2009,77427.0,Petrol,Manual,0,1197.0,23.2,225000.0
+Maruti,Ertiga,2016,43000.0,Diesel,Manual,0,1462.0,19.0,775000.0
+Maruti,Ertiga,2015,41678.0,Diesel,Manual,0,1462.0,19.0,725000.0
+Maruti,Ertiga,2016,43000.0,Diesel,Manual,0,1462.0,19.0,775000.0
+Maruti,Wagon R,2015,35500.0,CNG,Manual,0,998.0,21.8,325000.0
+Maruti,SX4,2010,41442.0,Petrol,Manual,0,1586.0,15.6,265000.0
+Maruti,Alto K10,2016,25000.0,Petrol,Manual,0,998.0,24.3,285000.0
+Maruti,Ignis,2017,2400.0,Petrol,Manual,0,1197.0,20.8,490000.0
+Maruti,SX4,2011,50000.0,Petrol,Automatic,0,1586.0,15.6,440000.0
+Maruti,Alto K10,2014,45280.0,Petrol,Manual,0,998.0,24.3,250000.0
+Maruti,Wagon R,2013,56879.0,Petrol,Manual,0,998.0,21.8,290000.0
+Maruti,Swift,2011,20000.0,Petrol,Manual,0,1197.0,22.0,300000.0
+Maruti,Swift,2013,55138.0,Petrol,Manual,0,1197.0,22.0,415000.0
+Maruti,Swift,2017,16200.0,Petrol,Manual,0,1197.0,22.0,600000.0
+Maruti,Alto K10,2010,44542.0,Petrol,Manual,0,998.0,24.3,195000.0
+Maruti,Ciaz,2015,45000.0,Diesel,Manual,0,1462.0,20.6,745000.0
+Maruti,Ritz,2012,51439.0,Diesel,Manual,0,1197.0,18.6,310000.0
+Maruti,Ritz,2011,54200.0,Petrol,Manual,0,1197.0,18.6,235000.0
+Maruti,Swift,2014,39000.0,Diesel,Manual,0,1197.0,22.0,495000.0
+Maruti,Ertiga,2014,45000.0,Diesel,Manual,0,1462.0,19.0,600000.0
+Maruti,Dzire,2014,45000.0,Diesel,Manual,0,1197.0,23.2,550000.0
+Maruti,SX4,2011,49998.0,CNG,Manual,0,1586.0,15.6,295000.0
+Maruti,Dzire,2015,48767.0,Petrol,Manual,0,1197.0,23.2,465000.0
+Maruti,800,2003,127000.0,Petrol,Manual,0,796.0,16.1,35000.0
+Maruti,Alto K10,2016,10079.0,Petrol,Manual,0,998.0,24.3,300000.0
+Maruti,SX4,2003,62000.0,Petrol,Manual,0,1586.0,15.6,225000.0
+Maruti,Baleno,2016,24524.0,Petrol,Automatic,0,1197.0,22.3,585000.0
+Maruti,Alto K10,2014,46706.0,Petrol,Manual,0,998.0,24.3,255000.0
+Maruti,SX4,2008,58000.0,Petrol,Manual,0,1586.0,15.6,195000.0
+Maruti,Dzire,2014,45780.0,Diesel,Manual,0,1197.0,23.2,550000.0
+Maruti,Omni,2012,50000.0,Petrol,Manual,0,796.0,16.8,125000.0
+Maruti,Ciaz,2014,15000.0,Petrol,Automatic,0,1462.0,20.6,750000.0
+Maruti,Ritz,2013,64532.0,Petrol,Manual,0,1197.0,18.6,265000.0
+Maruti,Wagon R,2006,65000.0,Petrol,Manual,0,998.0,21.8,105000.0
+Maruti,Ertiga,2015,25870.0,Petrol,Manual,0,1462.0,19.0,580000.0
+Maruti,Ciaz,2017,37000.0,Petrol,Automatic,0,1462.0,20.6,775000.0
+Toyota,Fortuner,2012,104707.0,Diesel,Automatic,0,2755.0,10.0,1490000.0
+Toyota,Fortuner,2015,40000.0,Diesel,Automatic,0,2755.0,10.0,2300000.0
+Toyota,Innova,2017,15000.0,Diesel,Automatic,0,2393.0,15.1,1800000.0
+Toyota,Fortuner,2013,135000.0,Diesel,Automatic,0,2755.0,10.0,1600000.0
+Toyota,Innova,2005,90000.0,Petrol,Manual,0,2393.0,15.1,275000.0
+Toyota,Corolla Altis,2009,70000.0,Petrol,Automatic,0,1798.0,14.2,360000.0
+Toyota,Etios Cross,2015,40534.0,Petrol,Manual,0,1496.0,17.7,450000.0
+Toyota,Corolla Altis,2010,50000.0,Petrol,Manual,0,1798.0,14.2,475000.0
+Toyota,Etios,2014,39485.0,Petrol,Manual,1,1496.0,16.8,410000.0
+Toyota,Fortuner,2014,41000.0,Diesel,Automatic,0,2755.0,10.0,1999000.0
+Toyota,Corolla Altis,2013,40001.0,Petrol,Manual,0,1798.0,14.2,695000.0
+Toyota,Etios Cross,2015,40588.0,Petrol,Manual,0,1496.0,17.7,450000.0
+Toyota,Fortuner,2014,78000.0,Diesel,Automatic,0,2755.0,10.0,1875000.0
+Toyota,Fortuner,2015,47000.0,Diesel,Automatic,0,2755.0,10.0,2350000.0
+Toyota,Fortuner,2017,6000.0,Diesel,Automatic,0,2755.0,10.0,3300000.0
+Toyota,Etios Liva,2014,45000.0,Diesel,Manual,0,1197.0,18.1,475000.0
+Toyota,Innova,2017,11000.0,Petrol,Automatic,0,2393.0,15.1,1975000.0
+Toyota,Fortuner,2010,59000.0,Diesel,Manual,0,2755.0,10.0,925000.0
+Toyota,Corolla Altis,2011,88000.0,Petrol,Manual,0,1798.0,14.2,435000.0
+Toyota,Corolla Altis,2016,12000.0,Petrol,Manual,0,1798.0,14.2,1425000.0
+Toyota,Etios Liva,2014,71000.0,Diesel,Manual,0,1197.0,18.1,395000.0
+Toyota,Corolla Altis,2011,45000.0,Diesel,Manual,0,1798.0,14.2,450000.0
+Toyota,Corolla Altis,2013,56001.0,Petrol,Manual,0,1798.0,14.2,745000.0
+Toyota,Etios Liva,2011,43000.0,Petrol,Manual,0,1197.0,18.1,265000.0
+Toyota,Etios Cross,2014,83000.0,Diesel,Manual,0,1496.0,17.7,490000.0
+Toyota,Etios,2015,36000.0,Petrol,Manual,0,1496.0,16.8,395000.0
+Toyota,Corolla Altis,2013,72000.0,Petrol,Manual,0,1798.0,14.2,550000.0
+Toyota,Corolla,2004,135154.0,Petrol,Automatic,0,1798.0,14.2,150000.0
+Toyota,Corolla Altis,2010,80000.0,Petrol,Automatic,0,1798.0,14.2,525000.0
+Toyota,Fortuner,2012,89000.0,Diesel,Automatic,0,2755.0,10.0,1450000.0
+Toyota,Corolla Altis,2016,23000.0,Diesel,Manual,0,1798.0,14.2,1473000.0
+Toyota,Etios,2015,40000.0,Diesel,Manual,0,1364.0,23.5,475000.0
+Toyota,Innova,2017,15000.0,Diesel,Automatic,0,2393.0,15.1,2300000.0
+Toyota,Innova,2015,38000.0,Diesel,Manual,0,2393.0,15.1,1250000.0
+Toyota,Innova,2005,197176.0,Diesel,Manual,0,2393.0,15.1,349000.0
+Toyota,Camry,2006,142000.0,Petrol,Automatic,3,2487.0,19.1,250000.0
+Toyota,Land Cruiser,2010,78000.0,Diesel,Manual,0,4461.0,9.0,3500000.0
+Toyota,Corolla Altis,2012,56000.0,Petrol,Manual,0,1798.0,14.2,590000.0
+Toyota,Etios Liva,2013,47000.0,Petrol,Manual,0,1197.0,18.1,345000.0
+Toyota,Etios,2014,40000.0,Petrol,Manual,0,1496.0,16.8,475000.0
+Toyota,Corolla Altis,2009,62000.0,Petrol,Manual,0,1798.0,14.2,380000.0
+Toyota,Innova,2014,58242.0,Diesel,Manual,0,2393.0,15.1,1125000.0
+Toyota,Innova,2005,75000.0,Petrol,Manual,0,2393.0,15.1,351000.0
+Toyota,Fortuner,2015,40000.0,Diesel,Automatic,0,2755.0,10.0,2300000.0
+Toyota,Corolla Altis,2008,89000.0,Petrol,Automatic,0,1798.0,14.2,400000.0
+Toyota,Corolla Altis,2012,72000.0,Petrol,Manual,0,1798.0,14.2,585000.0
+Toyota,Innova,2016,29000.0,Diesel,Automatic,0,2393.0,15.1,2075000.0
+Toyota,Corolla Altis,2017,8700.0,Petrol,Manual,0,1798.0,14.2,1700000.0
+Toyota,Corolla Altis,2013,45000.0,Petrol,Manual,0,1798.0,14.2,705000.0
+Toyota,Fortuner,2010,50024.0,Diesel,Manual,0,2755.0,10.0,965000.0
+Hyundai,i20,2010,58000.0,Diesel,Manual,1,1197.0,20.3,325000.0
+Hyundai,Grand i10,2015,28200.0,Petrol,Manual,0,1197.0,20.7,440000.0
+Hyundai,i10,2011,53460.0,Petrol,Manual,0,1086.0,19.8,295000.0
+Hyundai,Eon,2015,28282.0,Petrol,Manual,0,814.0,21.1,275000.0
+Hyundai,Grand i10,2016,3493.0,Petrol,Manual,1,1197.0,20.7,525000.0
+Hyundai,Xcent,2017,12479.0,Petrol,Manual,0,1197.0,20.1,575000.0
+Hyundai,Grand i10,2015,34797.0,Petrol,Automatic,0,1197.0,20.7,515000.0
+Hyundai,i20,2017,3435.0,Petrol,Manual,0,1197.0,20.3,790000.0
+Hyundai,Grand i10,2015,21125.0,Diesel,Manual,0,1197.0,20.7,485000.0
+Hyundai,i10,2012,35775.0,Petrol,Manual,0,1086.0,19.8,310000.0
+Hyundai,Elantra,2015,43535.0,Diesel,Manual,0,1999.0,14.6,1175000.0
+Hyundai,Creta,2016,22671.0,Petrol,Manual,0,1497.0,17.0,1125000.0
+Hyundai,i20,2011,31604.0,Petrol,Manual,0,1197.0,20.3,290000.0
+Hyundai,Grand i10,2017,20114.0,Petrol,Manual,0,1197.0,20.7,525000.0
+Hyundai,Verna,2012,36100.0,Petrol,Manual,0,1497.0,18.6,450000.0
+Hyundai,Eon,2016,12500.0,Petrol,Manual,0,814.0,21.1,290000.0
+Hyundai,Eon,2016,15000.0,Petrol,Manual,0,814.0,21.1,315000.0
+Hyundai,Verna,2014,45078.0,Petrol,Manual,0,1497.0,18.6,645000.0
+Hyundai,Verna,2012,36000.0,Petrol,Manual,0,1497.0,18.6,450000.0
+Hyundai,Eon,2017,38488.0,Petrol,Manual,0,814.0,21.1,350000.0
+Hyundai,i20,2013,32000.0,Petrol,Automatic,0,1197.0,20.3,450000.0
+Hyundai,i20,2014,77632.0,Diesel,Manual,0,1197.0,20.3,600000.0
+Hyundai,Verna,2015,61381.0,Diesel,Manual,0,1497.0,18.6,825000.0
+Hyundai,Verna,2013,36198.0,Petrol,Automatic,0,1497.0,18.6,511000.0
+Hyundai,i10,2011,22517.0,Petrol,Manual,0,1086.0,19.8,270000.0
+Hyundai,Grand i10,2015,24678.0,Petrol,Manual,0,1197.0,20.7,525000.0
+Hyundai,i10,2011,57000.0,Petrol,Manual,0,1086.0,19.8,255000.0
+Hyundai,Verna,2012,60000.0,Diesel,Manual,0,1497.0,18.6,495000.0
+Hyundai,i20,2012,52132.0,Diesel,Manual,0,1197.0,20.3,310000.0
+Hyundai,Verna,2013,45000.0,Diesel,Manual,0,1497.0,18.6,615000.0
+Hyundai,Verna,2017,15001.0,Petrol,Manual,0,1497.0,18.6,925000.0
+Hyundai,Elantra,2015,12900.0,Petrol,Automatic,0,1999.0,14.6,1145000.0
+Hyundai,Grand i10,2013,53000.0,Diesel,Manual,0,1197.0,20.7,390000.0
+Hyundai,Grand i10,2015,4492.0,Petrol,Manual,0,1197.0,20.7,550000.0
+Hyundai,Verna,2017,15141.0,Petrol,Manual,0,1497.0,18.6,910000.0
+Hyundai,Eon,2016,11849.0,Petrol,Manual,0,814.0,21.1,310000.0
+Hyundai,Creta,2015,68000.0,Diesel,Manual,0,1497.0,17.0,1125000.0
+Hyundai,Verna,2013,60241.0,Petrol,Manual,0,1497.0,18.6,480000.0
+Hyundai,Eon,2012,23709.0,Petrol,Manual,0,814.0,21.1,200000.0
+Hyundai,Verna,2012,32322.0,Diesel,Manual,0,1497.0,18.6,535000.0
+Hyundai,Xcent,2015,35866.0,Petrol,Manual,1,1197.0,20.1,475000.0
+Hyundai,Xcent,2014,34000.0,Petrol,Manual,0,1197.0,20.1,440000.0
+Hyundai,i20,2016,7000.0,Petrol,Manual,0,1197.0,20.3,625000.0
+Hyundai,Verna,2013,49000.0,Diesel,Manual,0,1497.0,18.6,595000.0
+Hyundai,Verna,2012,71000.0,Diesel,Manual,0,1497.0,18.6,520000.0
+Hyundai,i20,2012,35000.0,Petrol,Manual,0,1197.0,20.3,375000.0
+Hyundai,Verna,2015,36000.0,Petrol,Manual,0,1497.0,18.6,595000.0
+Hyundai,i10,2013,30000.0,Petrol,Manual,0,1086.0,19.8,400000.0
+Hyundai,i20,2016,17000.0,Petrol,Manual,0,1197.0,20.3,525000.0
+Hyundai,Creta,2016,35934.0,Diesel,Manual,0,1497.0,17.0,1290000.0
+Honda,City,2013,56701.0,Petrol,Manual,0,1498.0,17.8,500000.0
+Honda,Brio,2015,31427.0,Petrol,Automatic,0,1198.0,18.5,540000.0
+Honda,City,2014,48000.0,Diesel,Manual,0,1498.0,17.8,720000.0
+Honda,City,2013,54242.0,Petrol,Manual,0,1498.0,17.8,525000.0
+Honda,Brio,2012,53675.0,Petrol,Manual,0,1198.0,18.5,300000.0
+Honda,City,2016,49562.0,Petrol,Manual,0,1498.0,17.8,1025000.0
+Honda,City,2015,40324.0,Petrol,Manual,0,1498.0,17.8,850000.0
+Honda,City,2015,25000.0,Petrol,Manual,0,1498.0,17.8,840000.0
+Honda,Amaze,2014,36054.0,Petrol,Manual,0,1199.0,18.6,390000.0
+Honda,City,2016,29223.0,Petrol,Manual,0,1498.0,17.8,915000.0
+Honda,Brio,2016,5600.0,Petrol,Manual,0,1198.0,18.5,550000.0
+Honda,Amaze,2015,40023.0,Petrol,Manual,0,1199.0,18.6,400000.0
+Honda,Jazz,2016,16002.0,Petrol,Manual,0,1199.0,17.1,660000.0
+Honda,Amaze,2015,40026.0,Petrol,Manual,0,1199.0,18.6,400000.0
+Honda,Jazz,2017,21200.0,Petrol,Manual,0,1199.0,17.1,650000.0
+Honda,Amaze,2014,35000.0,Petrol,Manual,0,1199.0,18.6,365000.0
+Honda,City,2016,19434.0,Diesel,Manual,0,1498.0,17.8,835000.0
+Honda,Brio,2017,19000.0,Petrol,Manual,0,1198.0,18.5,480000.0
+Honda,City,2015,18828.0,Petrol,Manual,0,1498.0,17.8,670000.0
+Honda,City,2011,69341.0,Petrol,Manual,0,1498.0,17.8,410000.0
+Honda,City,2009,69562.0,Petrol,Manual,0,1498.0,17.8,300000.0
+Honda,City,2015,27600.0,Petrol,Manual,0,1498.0,17.8,750000.0
+Honda,Jazz,2010,61203.0,Petrol,Manual,0,1199.0,17.1,225000.0
+Honda,Brio,2014,16500.0,Petrol,Manual,0,1198.0,18.5,530000.0
+Honda,City,2016,30753.0,Petrol,Automatic,0,1498.0,17.8,1090000.0
+Honda,City,2015,24800.0,Petrol,Manual,0,1498.0,17.8,865000.0
+Honda,City,2015,21780.0,Petrol,Manual,0,1498.0,17.8,970000.0
+Honda,Jazz,2016,4000.0,Petrol,Manual,0,1199.0,17.1,600000.0
+Honda,City,2014,40126.0,Petrol,Manual,0,1498.0,17.8,625000.0
+Honda,Brio,2015,14465.0,Petrol,Manual,0,1198.0,18.5,525000.0
+Honda,City,2006,50456.0,Petrol,Manual,0,1498.0,17.8,210000.0
+Honda,City,2014,63000.0,Diesel,Manual,0,1498.0,17.8,825000.0
+Honda,City,2016,9010.0,Petrol,Manual,0,1498.0,17.8,899000.0
+Honda,Brio,2013,9800.0,Petrol,Manual,0,1198.0,18.5,350000.0
+Honda,Jazz,2016,15059.0,Petrol,Automatic,0,1199.0,17.1,740000.0
+Honda,Jazz,2016,28569.0,Petrol,Manual,0,1199.0,17.1,565000.0
+Honda,Amaze,2015,44000.0,Petrol,Automatic,0,1199.0,18.6,575000.0
+Honda,City,2015,34000.0,Petrol,Manual,0,1498.0,17.8,840000.0
+Honda,City,2016,10980.0,Petrol,Manual,0,1498.0,17.8,1011000.0
+Honda,Amaze,2014,19000.0,Petrol,Manual,0,1199.0,18.6,450000.0
+Honda,Brio,2015,31427.0,Petrol,Manual,0,1198.0,18.5,540000.0
+Honda,Jazz,2016,12000.0,Petrol,Manual,0,1199.0,17.1,640000.0
+Honda,City,2010,38000.0,Petrol,Manual,0,1498.0,17.8,325000.0
+Honda,Amaze,2014,33019.0,Petrol,Manual,0,1199.0,18.6,375000.0
+Honda,City,2015,60076.0,Diesel,Manual,0,1498.0,17.8,855000.0
+Honda,City,2016,33988.0,Diesel,Manual,0,1498.0,17.8,950000.0
+Honda,Brio,2015,60000.0,Petrol,Manual,0,1198.0,18.5,400000.0
+Honda,City,2009,87934.0,Petrol,Manual,0,1498.0,17.8,335000.0
+Honda,City,2017,9000.0,Diesel,Manual,0,1498.0,17.8,1150000.0
+Honda,Brio,2016,5464.0,Petrol,Manual,0,1198.0,18.5,530000.0

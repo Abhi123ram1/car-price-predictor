@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="hero-banner mb-5">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <span class="badge badge-cyan px-3 py-2 mb-3"><i class="fa-solid fa-brain mr-1"></i> AI-Powered Used Car Valuation</span>
+      <h1 class="hero-title mb-3">Instant & Accurate Used Car Price Estimation</h1>
+      <p class="lead text-muted mb-4">
+        Predict the fair market value of any used car in seconds. Built using an advanced Random Forest Regressor trained on real-world Indian market car listings.
+      </p>
+      <div class="d-flex flex-wrap gap-3">
+        <a class="btn btn-cyan btn-lg mr-3 mb-2" href="/predict" role="button">
+          <i class="fa-solid fa-calculator mr-2"></i>Predict Price Now
+        </a>
+        <a class="btn btn-outline-glass btn-lg mb-2" href="/dashboard" role="button">
+          <i class="fa-solid fa-chart-pie mr-2"></i>Market Analytics
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-5 mt-4 mt-lg-0 text-center">
+      <div class="glass-card p-4">
+        <h5 class="text-muted mb-3"><i class="fa-solid fa-circle-check text-cyan mr-2"></i>Model Confidence & Metrics</h5>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <div class="stat-card">
+              <div class="stat-value">{{ (meta.get('metrics', {}).get('r2', 0.9126) * 100)|round(1) }}%</div>
+              <div class="stat-label">Model Accuracy (R²)</div>
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div class="stat-card">
+              <div class="stat-value">₹{{ '{:,.0f}'.format(meta.get('metrics', {}).get('mae', 89246)) }}</div>
+              <div class="stat-label">Mean Absolute Error</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="stat-card">
+              <div class="stat-value">{{ meta.get('brands', [])|length }}</div>
+              <div class="stat-label">Car Brands</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="stat-card">
+              <div class="stat-value">{{ meta.get('metrics', {}).get('sample_count', 600) }}</div>
+              <div class="stat-label">Trained Records</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-5">
+  <div class="col-md-4 mb-4">
+    <div class="glass-card p-4 h-100">
+      <div class="mb-3 text-cyan fs-2"><i class="fa-solid fa-tree fa-2x"></i></div>
+      <h4 class="mb-2">Random Forest Pipeline</h4>
+      <p class="text-muted">
+        Combines 150 decision trees to evaluate vehicle age, mileage, engine displacement, transmission, and brand reputation for precision pricing.
+      </p>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="glass-card p-4 h-100">
+      <div class="mb-3 text-indigo fs-2"><i class="fa-solid fa-shield-halved fa-2x"></i></div>
+      <h4 class="mb-2">Uncertainty & Range</h4>
+      <p class="text-muted">
+        Calculates ensemble variance to output high and low market boundaries along with a transparent confidence rating for every estimate.
+      </p>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="glass-card p-4 h-100">
+      <div class="mb-3 text-purple fs-2"><i class="fa-solid fa-tags fa-2x"></i></div>
+      <h4 class="mb-2">Smart Deal Classifier</h4>
+      <p class="text-muted">
+        Automatically labels listings as <span class="badge-good-deal">Good Deal</span>, <span class="badge-fair-price">Fair Price</span>, or <span class="badge-overpriced">Overpriced</span> relative to current market norms.
+      </p>
+    </div>
+  </div>
+</div>
+
+{% if meta.get('feature_importances') %}
+<div class="glass-card p-4 mb-5">
+  <h4 class="mb-4"><i class="fa-solid fa-sliders text-cyan mr-2"></i>Key Price Drivers (Feature Importance)</h4>
+  <div class="row">
+    {% for item in meta.get('feature_importances', []) %}
+      <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <span class="text-white">{{ item.feature.replace('_', ' ') }}</span>
+          <span class="text-cyan font-weight-bold">{{ item.importance }}%</span>
+        </div>
+        <div class="progress bg-dark" style="height: 8px; border-radius: 4px;">
+          <div class="progress-bar bg-gradient-cyan" role="progressbar" style="width: {{ item.importance }}%; background: linear-gradient(90deg, #38bdf8, #6366f1);" aria-valuenow="{{ item.importance }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
