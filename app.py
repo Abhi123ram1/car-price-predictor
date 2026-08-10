@@ -33,6 +33,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "database.db")
 MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
 META_PATH = os.path.join(BASE_DIR, "model_meta.json")
+SAMPLE_CSV = os.path.join(BASE_DIR, "SAMPLE_DATASET.csv")
 DB_URL = os.environ.get("DATABASE_URL")
 
 app = Flask(__name__)
@@ -43,19 +44,54 @@ META = {}
 
 def load_model_and_meta():
     global MODEL, META
+    # Load trained model if present
     if os.path.exists(MODEL_PATH):
         try:
             MODEL = joblib.load(MODEL_PATH)
             print("Model successfully loaded from", MODEL_PATH)
         except Exception as e:
             print("Error loading model:", e)
+    else:
+        print(f"Model file not found at {MODEL_PATH}. Predictions will be disabled until a trained model is available.")
 
+    # Load metadata (brands, models, etc.) with a fallback to sample CSV if meta file missing
     if os.path.exists(META_PATH):
         try:
             with open(META_PATH, "r") as f:
                 META = json.load(f)
+            print(f"Metadata loaded from {META_PATH}: {len(META.get('brands', []))} brands")
         except Exception as e:
             print("Error loading metadata:", e)
+            META = {}
+    else:
+        # Fallback: build minimal metadata from SAMPLE_DATASET.csv if available
+        if os.path.exists(SAMPLE_CSV):
+            try:
+                df = pd.read_csv(SAMPLE_CSV)
+                META = {}
+                META['brands'] = sorted(df['Brand'].dropna().unique().tolist()) if 'Brand' in df.columns else []
+                models_by_brand = {}
+                for b in META['brands']:
+                    models_by_brand[b] = sorted(df[df['Brand'] == b]['Model'].dropna().unique().tolist()) if 'Model' in df.columns else []
+                META['models_by_brand'] = models_by_brand
+                META['fuel_types'] = sorted(df['Fuel_Type'].dropna().unique().tolist()) if 'Fuel_Type' in df.columns else ['Petrol', 'Diesel']
+                META['transmissions'] = sorted(df['Transmission'].dropna().unique().tolist()) if 'Transmission' in df.columns else ['Manual', 'Automatic']
+                if 'Owner_Count' in df.columns:
+                    try:
+                        META['owner_counts'] = sorted(df['Owner_Count'].dropna().astype(int).unique().tolist())
+                    except Exception:
+                        META['owner_counts'] = sorted(df['Owner_Count'].dropna().unique().tolist())
+                else:
+                    META['owner_counts'] = [0, 1, 2]
+                if 'Year' in df.columns and 'Selling_Price' in df.columns:
+                    price_by_year = df.groupby('Year')['Selling_Price'].mean().reset_index().sort_values('Year')
+                    META['price_by_year'] = price_by_year.to_dict(orient='records')
+                print(f"Built metadata from sample CSV at {SAMPLE_CSV}: {len(META.get('brands', []))} brands")
+            except Exception as e:
+                print("Failed to build metadata from SAMPLE_DATASET.csv:", e)
+                META = {}
+        else:
+            print(f"No metadata file at {META_PATH} and no sample CSV at {SAMPLE_CSV}. Metadata will be empty.")
 
 load_model_and_meta()
 

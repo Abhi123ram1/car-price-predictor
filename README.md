@@ -140,3 +140,29 @@ Or using Docker Compose:
 ```bash
 docker-compose up --build
 ```
+
+---
+
+## 🧾 Deploy to Render (Automated via GitHub Actions)
+
+This repository includes a GitHub Actions workflow that builds a Docker image, pushes it to GitHub Container Registry (GHCR) and triggers a Render deploy via the Render API.
+
+### Required GitHub repository secrets (add these in Settings → Secrets):
+- `CR_PAT` — Personal Access Token with `write:packages` and `repo` scopes (used to push to GHCR)
+- `RENDER_API_KEY` — Render service API key (from Render dashboard)
+- `RENDER_SERVICE_ID` — Render service ID (the target service to trigger a deploy)
+
+Workflow file: `.github/workflows/deploy_render.yml`
+
+How it works:
+1. On push to `main`, the workflow builds and pushes `ghcr.io/<owner>/car-price-predictor:latest`.
+2. It calls the Render API to create a new deploy for the configured service.
+
+### Git commands to commit & push these changes:
+```powershell
+git add .
+git commit -m "Add Render deploy config and GHCR CI workflow"
+git push origin main
+```
+
+After pushing, configure the three secrets above in your repository and Render will receive a webhook trigger from the GitHub Action to deploy the new image.
