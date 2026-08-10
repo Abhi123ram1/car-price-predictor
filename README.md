@@ -4,8 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
 
-**🌐 Live Web Application**: [https://car-price-predictor-r4a7.onrender.com](https://car-price-predictor-r4a7.onrender.com)
-
+**🌐 Live Web Application**: https://car-price-predictor-2-nvto.onrender.com/predict
 An AI-powered web application for used car valuation built with **Python**, **Flask**, **scikit-learn**, **Pandas**, **Chart.js**, and **SQLite/PostgreSQL**.
 
 ---
