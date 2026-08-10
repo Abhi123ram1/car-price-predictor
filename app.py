@@ -42,56 +42,83 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev_secret_key_car_pred
 MODEL = None
 META = {}
 
+DEFAULT_META = {
+    "brands": ["Maruti", "Hyundai", "Honda", "Toyota", "Tata", "Mahindra", "BMW", "Audi", "Mercedes-Benz", "Ford", "Kia", "Volkswagen", "Skoda", "Nissan", "Renault"],
+    "models_by_brand": {
+        "Maruti": ["Swift", "Baleno", "Dzire", "Ertiga", "Brezza", "Alto", "Wagon R", "Ciaz", "Ignis", "S-Cross"],
+        "Hyundai": ["i20", "Verna", "Creta", "Venue", "Grand i10", "i10", "Santro", "Elantra", "Tucson", "Xcent"],
+        "Honda": ["City", "Amaze", "Civic", "WR-V", "Jazz", "CR-V", "BR-V"],
+        "Toyota": ["Innova Crysta", "Fortuner", "Glanza", "Urban Cruiser", "Etios", "Corolla Altis", "Yaris"],
+        "Tata": ["Nexon", "Harrier", "Safari", "Tiago", "Punch", "Altroz", "Tigor", "Hexa"],
+        "Mahindra": ["Thar", "XUV700", "Scorpio-N", "Scorpio", "XUV300", "Bolero", "XUV500", "Marazzo"],
+        "Ford": ["EcoSport", "Endeavour", "Figo", "Freestyle", "Aspire"],
+        "BMW": ["3 Series", "5 Series", "X1", "X3", "X5", "7 Series"],
+        "Audi": ["A3", "A4", "A6", "Q3", "Q5", "Q7"],
+        "Mercedes-Benz": ["C-Class", "E-Class", "S-Class", "GLA", "GLC", "GLE"],
+        "Kia": ["Seltos", "Sonet", "Carens", "Carnival"],
+        "Volkswagen": ["Polo", "Vento", "Taigun", "Virtus", "Tiguan"],
+        "Skoda": ["Rapid", "Octavia", "Superb", "Kushaq", "Slavia"],
+        "Nissan": ["Kicks", "Magnite", "Sunny", "Terrano"],
+        "Renault": ["Kwid", "Triber", "Duster", "Kiger"]
+    },
+    "fuel_types": ["Petrol", "Diesel", "CNG", "LPG", "Electric"],
+    "transmissions": ["Manual", "Automatic"],
+    "owner_counts": [1, 2, 3, 4]
+}
+
 def load_model_and_meta():
     global MODEL, META
-    # Load trained model if present
-    if os.path.exists(MODEL_PATH):
+
+    # 1. Load Metadata FIRST (fast JSON parse with explicit UTF-8)
+    if os.path.exists(META_PATH):
+        try:
+            with open(META_PATH, "r", encoding="utf-8") as f:
+                META = json.load(f)
+            print(f"Metadata loaded from {META_PATH}: {len(META.get('brands', []))} brands")
+        except Exception as e:
+            print("Error loading model_meta.json:", e)
+            META = {}
+
+    # 2. Fallback if META is missing or has empty brands list
+    if not META or not META.get("brands"):
+        csv_candidates = [
+            os.path.join(BASE_DIR, "data", "kaggle_car_data.csv"),
+            os.path.join(BASE_DIR, "data", "car_data.csv"),
+            os.path.join(BASE_DIR, "data", "cardekho_v3_0.csv"),
+            SAMPLE_CSV
+        ]
+        loaded_from_csv = False
+        for csv_path in csv_candidates:
+            if os.path.exists(csv_path):
+                try:
+                    df = pd.read_csv(csv_path, encoding="utf-8")
+                    if "Brand" in df.columns and "Model" in df.columns:
+                        brands = sorted(df["Brand"].dropna().unique().tolist())
+                        models_by_brand = {}
+                        for b in brands:
+                            models_by_brand[b] = sorted(df[df["Brand"] == b]["Model"].dropna().unique().tolist())
+                        META["brands"] = brands
+                        META["models_by_brand"] = models_by_brand
+                        META["fuel_types"] = sorted(df["Fuel_Type"].dropna().unique().tolist()) if "Fuel_Type" in df.columns else DEFAULT_META["fuel_types"]
+                        META["transmissions"] = sorted(df["Transmission"].dropna().unique().tolist()) if "Transmission" in df.columns else DEFAULT_META["transmissions"]
+                        META["owner_counts"] = [1, 2, 3, 4]
+                        loaded_from_csv = True
+                        print(f"Loaded metadata from CSV at {csv_path}: {len(brands)} brands")
+                        break
+                except Exception as ex:
+                    print(f"Error reading CSV {csv_path}:", ex)
+
+        if not loaded_from_csv and not META.get("brands"):
+            META = DEFAULT_META
+            print("Using built-in DEFAULT_META fallback for car brands and models.")
+
+    # 3. Load trained ML model pipeline
+    if MODEL is None and os.path.exists(MODEL_PATH):
         try:
             MODEL = joblib.load(MODEL_PATH)
             print("Model successfully loaded from", MODEL_PATH)
         except Exception as e:
             print("Error loading model:", e)
-    else:
-        print(f"Model file not found at {MODEL_PATH}. Predictions will be disabled until a trained model is available.")
-
-    # Load metadata (brands, models, etc.) with a fallback to sample CSV if meta file missing
-    if os.path.exists(META_PATH):
-        try:
-            with open(META_PATH, "r") as f:
-                META = json.load(f)
-            print(f"Metadata loaded from {META_PATH}: {len(META.get('brands', []))} brands")
-        except Exception as e:
-            print("Error loading metadata:", e)
-            META = {}
-    else:
-        # Fallback: build minimal metadata from SAMPLE_DATASET.csv if available
-        if os.path.exists(SAMPLE_CSV):
-            try:
-                df = pd.read_csv(SAMPLE_CSV)
-                META = {}
-                META['brands'] = sorted(df['Brand'].dropna().unique().tolist()) if 'Brand' in df.columns else []
-                models_by_brand = {}
-                for b in META['brands']:
-                    models_by_brand[b] = sorted(df[df['Brand'] == b]['Model'].dropna().unique().tolist()) if 'Model' in df.columns else []
-                META['models_by_brand'] = models_by_brand
-                META['fuel_types'] = sorted(df['Fuel_Type'].dropna().unique().tolist()) if 'Fuel_Type' in df.columns else ['Petrol', 'Diesel']
-                META['transmissions'] = sorted(df['Transmission'].dropna().unique().tolist()) if 'Transmission' in df.columns else ['Manual', 'Automatic']
-                if 'Owner_Count' in df.columns:
-                    try:
-                        META['owner_counts'] = sorted(df['Owner_Count'].dropna().astype(int).unique().tolist())
-                    except Exception:
-                        META['owner_counts'] = sorted(df['Owner_Count'].dropna().unique().tolist())
-                else:
-                    META['owner_counts'] = [0, 1, 2]
-                if 'Year' in df.columns and 'Selling_Price' in df.columns:
-                    price_by_year = df.groupby('Year')['Selling_Price'].mean().reset_index().sort_values('Year')
-                    META['price_by_year'] = price_by_year.to_dict(orient='records')
-                print(f"Built metadata from sample CSV at {SAMPLE_CSV}: {len(META.get('brands', []))} brands")
-            except Exception as e:
-                print("Failed to build metadata from SAMPLE_DATASET.csv:", e)
-                META = {}
-        else:
-            print(f"No metadata file at {META_PATH} and no sample CSV at {SAMPLE_CSV}. Metadata will be empty.")
 
 load_model_and_meta()
 
@@ -428,5 +455,3 @@ if __name__ == "__main__":
         init_db()
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
-
-
